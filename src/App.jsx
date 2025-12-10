@@ -8,10 +8,10 @@ import Features from './Components/Features';
 import Pricing from "./Components/Pricing";
 import Resources from "./Components/Resources";
 import Footer from "./Components/Footer";
-
+import TouristAdmin from "./Components/TouristAdmin";
 
 export default function LandingPage() {
-  const [currentPage, setCurrentPage] = useState("home"); // 'home' or 'login'
+  const [currentPage, setCurrentPage] = useState("home"); // 'home', 'login', 'admin'
   const [activeCard, setActiveCard] = useState(null);
 
   const handleCardClick = (cardId) => {
@@ -20,7 +20,6 @@ export default function LandingPage() {
 
   const getZIndex = (cardId) => {
     if (activeCard === null) {
-      // Default z-index order
       const defaultOrder = {
         destinations: 10,
         analytics: 20,
@@ -34,8 +33,6 @@ export default function LandingPage() {
 
   const handleLogin = (formData) => {
     console.log("Login attempt:", formData);
-    // Add your login logic here
-    // For now, just show an alert
     alert(`Welcome! Logging in with ${formData.email}`);
   };
 
@@ -48,10 +45,13 @@ export default function LandingPage() {
     );
   }
 
+  if (currentPage === "admin") {
+    return <TouristAdmin onBack={() => setCurrentPage("home")} />;
+  }
+
   return (
     <div className="bg-starfield min-h-screen text-white font-['Space_Grotesk'] overflow-hidden">
       <BackgroundGlows />
-
       <div className="relative z-10 flex min-h-screen flex-col">
         <Navbar onLoginClick={() => setCurrentPage("login")} />
         <HeroSection />
@@ -60,11 +60,11 @@ export default function LandingPage() {
           onCardClick={handleCardClick}
           getZIndex={getZIndex}
         />
-        <Features />
+        <Features onAdminClick={() => setCurrentPage("admin")} />
         <Pricing />
         <Resources />
         <Footer />
-        </div>
+      </div>
     </div>
   );
 }
