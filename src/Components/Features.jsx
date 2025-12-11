@@ -1,6 +1,6 @@
 import React from "react";
 
-const Features = ({ onAdminClick }) => {
+const Features = ({ onAdminClick, onChatbotClick }) => {
   return (
     <section className="bg-gray-900 text-gray-200 py-16" id="features">
       <div className="max-w-6xl mx-auto text-center px-4">
@@ -10,7 +10,10 @@ const Features = ({ onAdminClick }) => {
         <div className="grid md:grid-cols-3 gap-8">
           
           {/* Feature 1 */}
-          <div className="p-6 bg-gradient-to-br from-purple-700 via-purple-800 to-purple-900 rounded-xl shadow-lg hover:scale-105 transform transition duration-300">
+          <div
+            onClick={onChatbotClick}
+            className="cursor-pointer p-6 bg-gradient-to-br from-purple-700 via-purple-800 to-purple-900 rounded-xl shadow-lg hover:scale-105 transform transition duration-300"
+          >
             <h3 className="text-2xl font-semibold mb-4">Budget Planner</h3>
             <p className="text-gray-200">
               Helps users plan their travel budget efficiently. Track expenses,
@@ -39,7 +42,10 @@ const Features = ({ onAdminClick }) => {
           </div>
 
           {/* Feature 4 */}
-          <div className="p-6 bg-gradient-to-br from-green-600 via-green-700 to-green-800 rounded-xl shadow-lg hover:scale-105 transform transition duration-300">
+          <div
+            onClick={onChatbotClick}
+            className="cursor-pointer p-6 bg-gradient-to-br from-green-600 via-green-700 to-green-800 rounded-xl shadow-lg hover:scale-105 transform transition duration-300"
+          >
             <h3 className="text-2xl font-semibold mb-4">AI Travel Assistance</h3>
             <p className="text-gray-200">
               Chatbot answers queries, gives recommendations, suggests

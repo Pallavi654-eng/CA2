@@ -4,14 +4,15 @@ import Navbar from "./Components/Navbar";
 import HeroSection from "./Components/HeroSection";
 import HeroVisual from "./Components/HeroVisual";
 import Login from "./Components/Login";
-import Features from './Components/Features';
+import Features from "./Components/Features";
 import Pricing from "./Components/Pricing";
 import Resources from "./Components/Resources";
 import Footer from "./Components/Footer";
 import TouristAdmin from "./Components/TouristAdmin";
+import AxoraChat from "./Components/Chatbot/AxoraChat";
 
 export default function LandingPage() {
-  const [currentPage, setCurrentPage] = useState("home"); // 'home', 'login', 'admin'
+  const [currentPage, setCurrentPage] = useState("home"); // 'home', 'login', 'admin', 'chat'
   const [activeCard, setActiveCard] = useState(null);
 
   const handleCardClick = (cardId) => {
@@ -49,22 +50,29 @@ export default function LandingPage() {
     return <TouristAdmin onBack={() => setCurrentPage("home")} />;
   }
 
+  if (currentPage === "chat") {
+    return <AxoraChat onBackToHome={() => setCurrentPage("home")} />;
+  }
+
   return (
     <div className="bg-starfield min-h-screen text-white font-['Space_Grotesk'] overflow-hidden">
       <BackgroundGlows />
       <div className="relative z-10 flex min-h-screen flex-col">
         <Navbar onLoginClick={() => setCurrentPage("login")} />
-        <HeroSection />
+        <HeroSection onGetStarted={() => setCurrentPage("chat")} />
         <HeroVisual
           activeCard={activeCard}
           onCardClick={handleCardClick}
           getZIndex={getZIndex}
         />
-        <Features onAdminClick={() => setCurrentPage("admin")} />
+        <Features 
+          onAdminClick={() => setCurrentPage("admin")} 
+          onChatbotClick={() => setCurrentPage("chat")}
+        />
         <Pricing />
         <Resources />
         <Footer />
-      </div>
+        </div>
     </div>
   );
 }
