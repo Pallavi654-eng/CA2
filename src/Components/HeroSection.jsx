@@ -13,15 +13,12 @@ export default function HeroSection({ onGetStarted }) {
         Discover amazing destinations, get personalized recommendations, and
         plan unforgettable journeys — all powered by intelligent AI assistance.
       </p>
-      <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+      <div className="mt-10 flex flex-col gap-4 sm:flex-row justify-center">
         <button
           onClick={onGetStarted}
           className="rounded-2xl bg-blue-600 px-8 py-3 text-lg font-semibold shadow-[0_20px_60px_rgba(59,130,246,0.45)] transition hover:bg-blue-500"
         >
           Get started
-        </button>
-        <button className="rounded-2xl border border-white/15 bg-white/5 px-8 py-3 text-lg font-semibold text-white transition hover:border-white/40 hover:bg-white/10">
-          See It in Action
         </button>
       </div>
     </section>

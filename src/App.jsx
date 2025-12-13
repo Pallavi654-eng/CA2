@@ -10,9 +10,10 @@ import Resources from "./Components/Resources";
 import Footer from "./Components/Footer";
 import TouristAdmin from "./Components/TouristAdmin";
 import AxoraChat from "./Components/Chatbot/AxoraChat";
+import FeedbackPage from "./Components/FeedbackPage";
 
 export default function LandingPage() {
-  const [currentPage, setCurrentPage] = useState("home"); // 'home', 'login', 'admin', 'chat'
+  const [currentPage, setCurrentPage] = useState("home"); // 'home', 'login', 'admin', 'chat', 'feedback'
   const [activeCard, setActiveCard] = useState(null);
 
   const handleCardClick = (cardId) => {
@@ -54,6 +55,10 @@ export default function LandingPage() {
     return <AxoraChat onBackToHome={() => setCurrentPage("home")} />;
   }
 
+  if (currentPage === "feedback") {
+    return <FeedbackPage onBackToHome={() => setCurrentPage("home")} />;
+  }
+
   return (
     <div className="bg-starfield min-h-screen text-white font-['Space_Grotesk'] overflow-hidden">
       <BackgroundGlows />
@@ -68,6 +73,7 @@ export default function LandingPage() {
         <Features 
           onAdminClick={() => setCurrentPage("admin")} 
           onChatbotClick={() => setCurrentPage("chat")}
+          onFeedbackClick={() => setCurrentPage("feedback")}
         />
         <Pricing />
         <Resources />
