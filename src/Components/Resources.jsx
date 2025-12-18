@@ -79,7 +79,7 @@ const ResourceCard = ({ resource, index, isVisible }) => (
         src={resource.image}
         alt={resource.title}
         className="w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-500"
-      />
+            />
       <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent" />
       
       {/* Badge */}
@@ -92,14 +92,14 @@ const ResourceCard = ({ resource, index, isVisible }) => (
       {/* Icon */}
       <div className={`absolute bottom-4 left-4 w-12 h-12 rounded-xl bg-gradient-to-br ${resource.color} flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}>
         {resource.icon}
-      </div>
-    </div>
+            </div>
+          </div>
 
     {/* Content */}
     <div className="p-5">
       <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-cyan-300 transition-colors">
         {resource.title}
-      </h3>
+              </h3>
       <p className="text-slate-400 text-sm mb-4">{resource.description}</p>
       
       <ul className="space-y-2">
@@ -109,12 +109,12 @@ const ResourceCard = ({ resource, index, isVisible }) => (
             {item}
           </li>
         ))}
-      </ul>
-    </div>
+              </ul>
+            </div>
 
     {/* Hover glow */}
     <div className={`absolute -bottom-20 -right-20 w-40 h-40 bg-gradient-to-br ${resource.color} rounded-full blur-3xl opacity-0 group-hover:opacity-15 transition-opacity duration-500`} />
-  </div>
+          </div>
 );
 
 export default function Resources() {
@@ -140,7 +140,7 @@ export default function Resources() {
           <p className="text-slate-400 max-w-xl mx-auto">
             Everything you need for a smarter, safer, and budget-friendly travel experience.
           </p>
-        </div>
+          </div>
 
         {/* Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

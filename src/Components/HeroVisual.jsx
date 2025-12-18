@@ -28,7 +28,7 @@ export default function HeroVisual({ activeCard, onCardClick, getZIndex }) {
         </div>
         
         {/* Main orb */}
-        <div className="orb-core relative h-[280px] w-[280px] sm:h-[320px] sm:w-[320px]">
+      <div className="orb-core relative h-[280px] w-[280px] sm:h-[320px] sm:w-[320px]">
           {/* Spinning rings */}
           <div className="spin-ring absolute inset-4 rounded-full border border-cyan-400/20" />
           <div className="spin-ring absolute inset-10 rounded-full border border-blue-400/15" style={{ animationDirection: "reverse", animationDuration: "25s" }} />

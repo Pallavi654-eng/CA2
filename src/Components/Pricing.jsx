@@ -106,7 +106,7 @@ const Pricing = () => {
           <p className="text-sm font-medium text-cyan-400 tracking-widest uppercase mb-3">Pricing</p>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Choose Your Plan</h2>
           <p className="text-slate-400 max-w-xl mx-auto">Simple, transparent pricing that grows with your travel needs</p>
-        </div>
+          </div>
 
         {/* Cards */}
         <div className="grid md:grid-cols-3 gap-6 lg:gap-8">

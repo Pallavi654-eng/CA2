@@ -137,7 +137,7 @@ const Features = ({ onAdminClick, onChatbotClick, onFeedbackClick }) => {
           <p className="text-sm font-medium text-cyan-400 tracking-widest uppercase mb-3">What We Offer</p>
           <h2 className="text-4xl md:text-5xl font-bold text-white">Key Features</h2>
         </div>
-
+          
         {/* Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {features.map((feature, i) => (
