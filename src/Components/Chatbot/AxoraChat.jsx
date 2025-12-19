@@ -34,11 +34,6 @@ export default function AxoraChat({ onBackToHome }) {
     []
   );
 
-  // Load chat history on component mount
-  useEffect(() => {
-    loadChatHistory();
-  }, []);
-
   const loadChatHistory = async () => {
     try {
       const data = await getChatHistory();
@@ -63,6 +58,12 @@ export default function AxoraChat({ onBackToHome }) {
       ]);
     }
   };
+
+  // Load chat history on component mount
+  useEffect(() => {
+    loadChatHistory();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (!listRef.current) return;
