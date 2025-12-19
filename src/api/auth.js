@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5001/api";
+const API_URL = "http://localhost:5002/api";
 
 export const signup = async (name, email, password) => {
   try {
@@ -17,7 +17,7 @@ export const signup = async (name, email, password) => {
     return data;
   } catch (error) {
     if (error.message === "Failed to fetch" || error.name === "TypeError") {
-      throw new Error("Cannot connect to server. Please make sure the backend is running on port 5000.");
+      throw new Error(`Cannot connect to server. Please make sure the backend is reachable at ${API_URL}.`);
     }
     throw error;
   }
@@ -40,7 +40,7 @@ export const login = async (email, password) => {
     return data;
   } catch (error) {
     if (error.message === "Failed to fetch" || error.name === "TypeError") {
-      throw new Error("Cannot connect to server. Please make sure the backend is running on port 5000.");
+      throw new Error(`Cannot connect to server. Please make sure the backend is reachable at ${API_URL}.`);
     }
     throw error;
   }

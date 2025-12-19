@@ -1,35 +1,44 @@
 const express = require("express");
-const router = express.Router();
-const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 
-// Signup
+const router = express.Router();
+
+/* ================= SIGNUP ================= */
 router.post("/signup", async (req, res) => {
   try {
+    console.log("🟡 Signup API hit");
+    console.log("🟡 Body:", req.body);
+
     const { name, email, password } = req.body;
 
-    // Check if user exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ success: false, message: "Email already registered" });
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: "All fields required" });
     }
 
-    // Hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already registered" });
+    }
 
-    // Create user
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    console.log("🟡 Saving user...");
+
     const user = await User.create({
       name,
       email,
       password: hashedPassword,
     });
 
-    // Generate token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || "secret", {
-      expiresIn: "7d",
-    });
+    console.log("🟢 User saved with ID:", user._id);
+
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET || "secret",
+      { expiresIn: "7d" }
+    );
 
     res.status(201).json({
       success: true,
@@ -41,31 +50,33 @@ router.post("/signup", async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    console.error("❌ Signup error:", error);
+    res.status(500).json({ message: error.message });
   }
 });
 
-// Login
+/* ================= LOGIN ================= */
 router.post("/login", async (req, res) => {
   try {
+    console.log("🟡 Login API hit");
+
     const { email, password } = req.body;
 
-    // Find user with password
     const user = await User.findOne({ email }).select("+password");
     if (!user) {
-      return res.status(401).json({ success: false, message: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    // Check password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ success: false, message: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    // Generate token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || "secret", {
-      expiresIn: "7d",
-    });
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET || "secret",
+      { expiresIn: "7d" }
+    );
 
     res.json({
       success: true,
@@ -77,8 +88,15 @@ router.post("/login", async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    console.error("❌ Login error:", error);
+    res.status(500).json({ message: error.message });
   }
+});
+
+/* ================= TEST ROUTE ================= */
+router.get("/all", async (req, res) => {
+  const users = await User.find();
+  res.json(users);
 });
 
 module.exports = router;

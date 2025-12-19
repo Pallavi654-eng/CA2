@@ -4,45 +4,32 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 
-// Load env vars
 dotenv.config();
 
 const app = express();
 
-// Middleware
-app.use(cors({
-  origin: "http://localhost:5173", // Vite default port
-  credentials: true,
-}));
-app.use(express.json());
+/* ---------- MIDDLEWARE ---------- */
+app.use(cors());              // allow frontend connection
+app.use(express.json());      // parse JSON body
 
-// Root API route
-app.get("/api", (req, res) => {
-  res.json({
-    message: "WanderAI API",
-    version: "1.0.0",
-    endpoints: {
-      health: "GET /api/health",
-      signup: "POST /api/auth/signup",
-      login: "POST /api/auth/login",
-    },
-  });
+/* ---------- ROOT ROUTE (FIX FOR Cannot GET /) ---------- */
+app.get("/", (req, res) => {
+  res.send("WanderAI Backend is running 🚀");
 });
 
-// Routes
+/* ---------- API ROUTE ---------- */
+app.get("/api", (req, res) => {
+  res.json({ message: "WanderAI API running 🚀" });
+});
+
+/* ---------- AUTH ROUTES ---------- */
 app.use("/api/auth", authRoutes);
 
-// Health check
-app.get("/api/health", (req, res) => {
-  res.json({ status: "ok", message: "Server is running" });
-});
+/* ---------- SERVER START ---------- */
+const PORT = process.env.PORT || 5002;
 
-const PORT = process.env.PORT || 5000;
-
-// Connect to database and start server
 connectDB().then(() => {
   app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
-    console.log(`📡 API available at http://localhost:${PORT}/api`);
+    console.log(`🚀 Server running on http://localhost:${PORT}`);
   });
 });
