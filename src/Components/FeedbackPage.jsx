@@ -68,14 +68,30 @@ export default function FeedbackPage({ onBackToHome }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
 
     setIsSubmitting(true);
 
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const response = await fetch("http://localhost:5005/api/feedback", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          message: `Location: ${formData.locationName}\nReview: ${formData.review}\nEmail: ${formData.email}`,
+          rating: rating,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to submit feedback");
+      }
+
+      // Reset form after success
       setFormData({
         locationName: "",
         review: "",
@@ -84,11 +100,15 @@ export default function FeedbackPage({ onBackToHome }) {
       });
       setRating(0);
       setSubmitSuccess(true);
-      setIsSubmitting(false);
 
       setTimeout(() => setSubmitSuccess(false), 3000);
-    }, 1000);
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
 
   const renderStars = () => {
     return [1, 2, 3, 4, 5].map((star) => (
@@ -101,11 +121,10 @@ export default function FeedbackPage({ onBackToHome }) {
         className="transition-transform duration-200 hover:scale-110 focus:outline-none"
       >
         <FaStar
-          className={`text-4xl ${
-            star <= (hoveredRating || rating)
+          className={`text-4xl ${star <= (hoveredRating || rating)
               ? "text-yellow-400 fill-yellow-400"
               : "text-slate-400"
-          }`}
+            }`}
         />
       </button>
     ));
@@ -116,7 +135,7 @@ export default function FeedbackPage({ onBackToHome }) {
       <BackgroundGlows />
 
       <div className="relative z-10 flex min-h-screen flex-col">
-        <Navbar onLoginClick={() => {}} />
+        <Navbar onLoginClick={() => { }} />
         {onBackToHome && <BackButton onBackToHome={onBackToHome} />}
 
         <div className="flex-1 px-6 py-12">
@@ -172,11 +191,10 @@ export default function FeedbackPage({ onBackToHome }) {
                         name="locationName"
                         value={formData.locationName}
                         onChange={handleChange}
-                        className={`w-full rounded-xl border bg-white/5 px-4 py-3 text-white placeholder-slate-500 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 ${
-                          errors.locationName
+                        className={`w-full rounded-xl border bg-white/5 px-4 py-3 text-white placeholder-slate-500 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 ${errors.locationName
                             ? "border-red-500/50 focus:border-red-500 focus:ring-red-500/50"
                             : "border-white/10"
-                        }`}
+                          }`}
                         placeholder="e.g., Eiffel Tower, Paris"
                       />
                       {errors.locationName && (
@@ -197,11 +215,10 @@ export default function FeedbackPage({ onBackToHome }) {
                         value={formData.review}
                         onChange={handleChange}
                         rows="5"
-                        className={`w-full rounded-xl border bg-white/5 px-4 py-3 text-white placeholder-slate-500 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 resize-none ${
-                          errors.review
+                        className={`w-full rounded-xl border bg-white/5 px-4 py-3 text-white placeholder-slate-500 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 resize-none ${errors.review
                             ? "border-red-500/50 focus:border-red-500 focus:ring-red-500/50"
                             : "border-white/10"
-                        }`}
+                          }`}
                         placeholder="Share your experience, what you liked, what could be improved..."
                       />
                       {errors.review && (
@@ -222,11 +239,10 @@ export default function FeedbackPage({ onBackToHome }) {
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className={`w-full rounded-xl border bg-white/5 px-4 py-3 text-white placeholder-slate-500 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 ${
-                          errors.name
+                        className={`w-full rounded-xl border bg-white/5 px-4 py-3 text-white placeholder-slate-500 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 ${errors.name
                             ? "border-red-500/50 focus:border-red-500 focus:ring-red-500/50"
                             : "border-white/10"
-                        }`}
+                          }`}
                         placeholder="Your name"
                       />
                       {errors.name && (
@@ -247,11 +263,10 @@ export default function FeedbackPage({ onBackToHome }) {
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        className={`w-full rounded-xl border bg-white/5 px-4 py-3 text-white placeholder-slate-500 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 ${
-                          errors.email
+                        className={`w-full rounded-xl border bg-white/5 px-4 py-3 text-white placeholder-slate-500 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 ${errors.email
                             ? "border-red-500/50 focus:border-red-500 focus:ring-red-500/50"
                             : "border-white/10"
-                        }`}
+                          }`}
                         placeholder="your.email@example.com"
                       />
                       {errors.email && (

@@ -3,13 +3,18 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
+const feedbackRoutes = require("./routes/feedbackRoutes");
+
 
 dotenv.config();
 
 const app = express();
 
 /* ---------- MIDDLEWARE ---------- */
-app.use(cors());              // allow frontend connection
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST"],
+})); // allow frontend connection
 app.use(express.json());      // parse JSON body
 
 /* ---------- ROOT ROUTE (FIX FOR Cannot GET /) ---------- */
@@ -24,9 +29,10 @@ app.get("/api", (req, res) => {
 
 /* ---------- AUTH ROUTES ---------- */
 app.use("/api/auth", authRoutes);
+app.use("/api/feedback", feedbackRoutes);
 
 /* ---------- SERVER START ---------- */
-const PORT = process.env.PORT || 5002;
+const PORT = process.env.PORT || 5005;
 
 connectDB().then(() => {
   app.listen(PORT, () => {
